@@ -420,7 +420,7 @@
 															<!--begin::player-->
 
 															<!-- player report  -->
-															<span class="general-icon d-block fw-bold fs-1 text-gray-800">50</span>
+															<span class="general-icon d-block fw-bold fs-1 text-gray-800" id="player_numbers"></span>
 															<!--end::player-->
 														</div>
 														<!--end::Body-->
@@ -448,7 +448,7 @@
 														<div class="card-body text-center pt-5">
 															<!--begin::Image-->
 															<!-- marchdize report -->
-															<span class="general-icon d-block fw-bold fs-1 text-gray-800">47</span>
+															<span class="general-icon d-block fw-bold fs-1 text-gray-800" id="marchandize_number"></span>
 															<!--end::Image-->
 														</div>
 														<!--end::Body-->
@@ -514,27 +514,16 @@
 		<!--end::Scrolltop-->
 
 		<script>var hostUrl = "assets/";</script>
+        // custom javascript
+		<script src="util/dashboard.js"></script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="assets/plugins/global/plugins.bundle.js"></script>
 		<script src="assets/js/scripts.bundle.js"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Vendors Javascript(used for this page only)-->
-		<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
-		<script src="assets/plugins/custom/vis-timeline/vis-timeline.bundle.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 		<!--end::Vendors Javascript-->
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script src="assets/js/widgets.bundle.js"></script>
-		<script src="assets/js/custom/widgets.js"></script>
-		<script src="assets/js/custom/apps/chat/chat.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-app.js"></script>
-		<script src="assets/js/custom/utilities/modals/top-up-wallet.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-account.js"></script>
-		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

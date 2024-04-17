@@ -4,3 +4,9 @@
 .general-icon{
   font-size: 64px !important;
 }
+
+@media (min-width: 1080px){
+  .container-width{
+    max-width: 800px;
+  }
+}
