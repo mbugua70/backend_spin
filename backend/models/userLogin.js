@@ -31,7 +31,7 @@ userSchema.statics.LoginUser = async function (name, password) {
 
   const user = await this.findOne({ name });
   if (!user) {
-    throw Error("Incorrect name");
+    throw Error("The username does not exist");
   }
   const auth = await bcrypt.compare(password, user.password);
   if (!auth) {

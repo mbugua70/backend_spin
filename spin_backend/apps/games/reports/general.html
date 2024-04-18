@@ -11,6 +11,8 @@
 		<meta property="og:type" content="article" />
 		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
 		<!--begin::Fonts(mandatory for all pages)-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
 		<!--begin::Vendor Stylesheets(used for this page only)-->
@@ -216,7 +218,7 @@
 												<!--end::Menu item-->
 												<!--begin::Menu item-->
 												<div class="menu-item px-5">
-													<a href="authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a>
+													<a href="/backend_spin/spin_backend/authentication/layouts/overlay/sign-in.html" class="menu-link px-5" id="sign-out-btn">Sign Out</a>
 												</div>
 												<!--end::Menu item-->
 											</div>
@@ -382,13 +384,8 @@
 													<input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search Report" />
 												</div>
 												<!--end::Search-->
-												<!--begin::Export buttons-->
-												<div id="kt_ecommerce_report_customer_orders_export" class="d-none"></div>
-												<!--end::Export buttons-->
-											</div>
-											<!--end::Card title==
 
-        <!==begin::Card toolbar-->
+											</div>
 											<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
 												<!--begin::Filter-->
 												<div class="w-150px">
@@ -405,31 +402,23 @@
 												</div>
 												<!--end::Filter-->
 												<!--begin::Export dropdown-->
-												<button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+												<button  class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
 												<i class="ki-duotone ki-exit-up fs-2">
 													<span class="path1"></span>
 													<span class="path2"></span>
 												</i>Export Report</button>
 												<!--begin::Menu-->
 												<div id="kt_ecommerce_report_customer_orders_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4" data-kt-menu="true">
+
 													<!--begin::Menu item-->
 													<div class="menu-item px-3">
-														<a href="#" class="menu-link px-3" data-kt-ecommerce-export="copy">Copy to clipboard</a>
+														<a href="#" class="menu-link px-3 export-option" data-kt-ecommerce-export="excel">Export as Excel</a>
 													</div>
 													<!--end::Menu item-->
+
 													<!--begin::Menu item-->
 													<div class="menu-item px-3">
-														<a href="#" class="menu-link px-3" data-kt-ecommerce-export="excel">Export as Excel</a>
-													</div>
-													<!--end::Menu item-->
-													<!--begin::Menu item-->
-													<div class="menu-item px-3">
-														<a href="#" class="menu-link px-3" data-kt-ecommerce-export="csv">Export as CSV</a>
-													</div>
-													<!--end::Menu item-->
-													<!--begin::Menu item-->
-													<div class="menu-item px-3">
-														<a href="#" class="menu-link px-3" data-kt-ecommerce-export="pdf">Export as PDF</a>
+														<a href="#" class="menu-link px-3  export-option" data-kt-ecommerce-export="pdf">Export as PDF</a>
 													</div>
 													<!--end::Menu item-->
 												</div>
@@ -512,6 +501,7 @@
 		<!--begin::Javascript-->
 		<script>var hostUrl = "assets/";</script>
 		// custome javascript
+		<script src="util/auth.js"></script>
         <script src="util/general.js"></script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="assets/plugins/global/plugins.bundle.js"></script>
