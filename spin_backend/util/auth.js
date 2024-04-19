@@ -7,7 +7,7 @@ if (!user) {
   setTimeout(() => {
     window.location.href =
       "/backend_spin/spin_backend/authentication/layouts/overlay/sign-in.html";
-  }, 6000);
+  }, 1000);
 }
 
 signOut.addEventListener(
@@ -22,7 +22,7 @@ signOut.addEventListener(
 );
 
 const workingNotifier = (message) => {
-  swal({
+  new Swal({
     buttonsStyling: !1,
     button: "Ok, got it!",
     customClass: { confirmButton: "btn btn-primary" },
@@ -34,7 +34,7 @@ const workingNotifier = (message) => {
 
 //   swal libraly
 function appNotifier(message) {
-  swal({
+  new Swal({
     buttonsStyling: !1,
     button: "Ok, got it!",
     customClass: { confirmButton: "btn btn-primary" },

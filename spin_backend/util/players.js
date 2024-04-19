@@ -1,8 +1,47 @@
+const inputSearch = document.getElementById("input-searchplayer");
+
+fetchTableData();
+
+inputSearch.addEventListener(
+  "input",
+  async () => {
+    const query = inputSearch.value.trim();
+    if (query === "") {
+      fetchTableData();
+    }
+
+    try {
+      const res = await fetch(
+        `http://localhost:4040/api/report/general/players/?q=${query}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      if (res.ok) {
+        displayPackages(data);
+      }
+    } catch (error) {
+      // appNotifier("Failed to fetch");
+    }
+  },
+  false
+);
+
 async function fetchTableData() {
   const starting_time = Date.now();
   try {
     const response = await fetch(
-      `http://localhost:4040/api/report/general/players`,
+      `http://localhost:4040/api/report/general/players/?q=`,
       {
         method: "GET",
         headers: {
@@ -24,10 +63,10 @@ async function fetchTableData() {
     //   const preloaderParent = document.querySelector(".preloader-parent");
     //   preloaderParent.style.display = "flex";
     // }
-    return data;
+    displayPackages(data);
   } catch (error) {
     console.error("Error fetching  data:", error);
-    return [];
+    // appNotifier("Failed to fetch data");
   }
 }
 
@@ -35,7 +74,6 @@ let packageCounter = 1;
 
 // function to generate the card HTML for each package
 const generateCard = async (tableData) => {
-  console.log(tableData);
   //  console.log(packageStatus);
   return `
     <tr>
@@ -51,25 +89,20 @@ const generateCard = async (tableData) => {
 
 // function to display the cards
 
-async function displayPackages() {
+async function displayPackages(tableDatashow) {
   const tableContainer = document.getElementById("table-container");
   tableContainer.innerHTML = "";
 
-  const tableDatashow = await fetchTableData();
-  console.log(tableDatashow);
-  if (tableDatashow.generalReport.length === 0) {
-    const tableContainer = document.getElementById("table-container");
-    // const message = `<p> You don't have an </p>`;
-    // cardContainer.innerHTML = message;
-  } else {
+  if (tableDatashow.generalReport.length > 0) {
     tableDatashow.generalReport.forEach(async (packageType) => {
       const cardHTML = await generateCard(packageType);
       tableContainer.innerHTML += cardHTML;
     });
   }
+  if (tableDatashow.generalReport.length === 0) {
+    const tableContainer = document.getElementById("table-container");
+    const message = `<p> You don't have an </p>`;
+    cardContainer.innerHTML = message;
+  } else {
+  }
 }
-
-const spinnerEl = document.querySelector(".spinner-grow");
-
-// code for package status
-displayPackages();

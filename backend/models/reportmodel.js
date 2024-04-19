@@ -8,15 +8,12 @@ const GeneralreportsSchema = new Schema(
   {
     player_email: {
       type: String,
-      required: true,
     },
     player_phone: {
       type: Number,
-      required: true,
     },
     player_marchandize: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }

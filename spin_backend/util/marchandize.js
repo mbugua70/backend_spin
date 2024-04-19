@@ -1,3 +1,8 @@
+const giftForm = document.getElementById("giftForm");
+const createGiftEl = document.getElementById("gift-create");
+const addForm = document.getElementById("addFormGift");
+
+let selectedIdGift;
 async function fetchTableData() {
   const starting_time = Date.now();
   try {
@@ -32,7 +37,6 @@ let packageCounter = 1;
 
 // function to generate the card HTML for each package
 const generateCard = async (tableData) => {
-  console.log(tableData);
   //  console.log(packageStatus);
   return `
     <tr>
@@ -41,6 +45,18 @@ const generateCard = async (tableData) => {
     </td>
     <td>
       ${tableData.gift_number}
+    </td>
+    <td>
+    ${tableData.fillStyle}
+    </td>
+    <td>
+    ${tableData.textFillStyle}
+    </td>
+    <td>
+    ${tableData.strokeStyle}
+    </td>
+    <td>
+    <button type="button" class="btn btn-edit btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" data-gift-id="${tableData._id}">EDIT</button>
     </td>
   </tr>
         `;
@@ -53,7 +69,6 @@ async function displayPackages() {
   tableContainer.innerHTML = "";
 
   const tableDatashow = await fetchTableData();
-  console.log(tableDatashow);
   if (tableDatashow.giftReport.length === 0) {
     const tableContainer = document.getElementById("table-container");
     // const message = `<p> You don't have an </p>`;
@@ -66,7 +81,186 @@ async function displayPackages() {
   }
 }
 
-const spinnerEl = document.querySelector(".spinner-grow");
+const handleFetchUpdateForm = async (e) => {
+  const marchandizeId = e.target.dataset.giftId;
+  selectedIdGift = marchandizeId;
+  try {
+    const res = await fetch(
+      `http://localhost:4040/api/report/gifts/${marchandizeId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error("Failed to fetch");
+    }
 
+    if (res.ok) {
+      const data = await res.json();
+      const text = document.getElementById("text");
+      const fillStyle = document.getElementById("fillStyle");
+      const textFillStyle = document.getElementById("textFillStyle");
+      const gift_number = document.getElementById("gift_number");
+      const strokeStyle = document.getElementById("strokeStyle");
+
+      // dyanamically filling the form values
+      text.value = data.SingleGift.text;
+      fillStyle.value = data.SingleGift.fillStyle;
+      textFillStyle.value = data.SingleGift.textFillStyle;
+      gift_number.value = data.SingleGift.gift_number;
+      strokeStyle.value = data.SingleGift.strokeStyle;
+    }
+  } catch (error) {
+    console.log("Failed to fetch:", error);
+  }
+};
+
+giftForm.addEventListener(
+  "submit",
+  async (e) => {
+    e.preventDefault();
+    const marchandizeId = selectedIdGift;
+
+    const giftData = new FormData(giftForm);
+
+    const text = giftData.get("text");
+    const fillStyle = giftData.get("fillStyle");
+    const textFillStyle = giftData.get("textFillStyle");
+    const strokeStyle = giftData.get("strokeStyle");
+    const gift_number = giftData.get("gift_number");
+
+    const updatedValues = {
+      text: text,
+      fillStyle: fillStyle,
+      textFillStyle: textFillStyle,
+      strokeStyle: strokeStyle,
+      gift_number: gift_number,
+    };
+
+    try {
+      const res = await fetch(
+        `http://localhost:4040/api/report/gifts/${marchandizeId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedValues),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to update the marchandize");
+      }
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+        workingNotifier("Marchandize Updated successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      appNotifier("Failed to update the marchandize");
+    }
+  },
+  false
+);
+
+// handle add marchandize
+
+addForm.addEventListener(
+  "submit",
+  async (e) => {
+    e.preventDefault();
+    const addedData = new FormData(addForm);
+
+    const text = addedData.get("text");
+    const fillStyle = addedData.get("fillStyle");
+    const textFillStyle = addedData.get("textFillStyle");
+    const strokeStyle = addedData.get("strokeStyle");
+    const gift_number = addedData.get("gift_number");
+
+    const addedValue = {
+      text: text,
+      fillStyle: fillStyle,
+      textFillStyle: textFillStyle,
+      strokeStyle: strokeStyle,
+      gift_number: gift_number,
+    };
+
+    if (
+      addedValue.text === "" ||
+      addedValue.fillStyle === "" ||
+      addedValue.textFillStyle === "" ||
+      addedValue.strokeStyle === "" ||
+      addedValue.gift_number === ""
+    ) {
+      appNotifier("Please fill in all the required fields");
+    }
+
+    try {
+      const res = await fetch("http://localhost:4040/api/report/gifts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(addedValue),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+        workingNotifier("Marchandize added successufully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      console.log();
+    }
+  },
+
+  false
+);
+
+const openModal = () => {
+  const exampleModal = document.getElementById("exampleModal");
+  if (exampleModal) {
+    exampleModal.addEventListener("show.bs.modal", (event) => {});
+  }
+};
+
+const openModalTwo = () => {
+  const exampleModalTwo = document.getElementById("exampleModalTwo");
+  if (exampleModalTwo) {
+    exampleModalTwo.addEventListener("show.bs.modal", (event) => {});
+  }
+};
+
+// modal code
+document.getElementById("table-container").addEventListener("click", (e) => {
+  console.log("clicked");
+  if (e.target.classList.contains("btn-edit")) {
+    openModal();
+    handleFetchUpdateForm(e);
+  }
+});
+
+createGiftEl.addEventListener(
+  "click",
+  () => {
+    openModalTwo();
+  },
+  false
+);
 // code for package status
 displayPackages();

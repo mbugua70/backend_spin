@@ -10,6 +10,10 @@
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
 		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+
+		<!-- material icons -->
+		<link rel="stylesheet" href="assets/dist/css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
@@ -55,7 +59,7 @@
 										<!--end::Heaeder navs toggle-->
 										<!--begin::Logo-->
 										<a href="index.html" class="d-flex align-items-center">
-											<img alt="Logo" src="assets/media/logos/demo21.svg" class="h-25px h-lg-30px" />
+											<img alt="Logo" src="" class="h-25px h-lg-30px" />
 										</a>
 										<!--end::Logo-->
 									</div>
@@ -360,6 +364,7 @@
 									<div class="page-title d-flex flex-column align-items-start me-3 py-2 py-lg-0 gap-2">
 										<!--begin::Title-->
 										<h1 class="d-flex text-gray-900 fw-bold m-0 fs-3">Marchandize Report</h1>
+										<button  class="mt-4 btn btn-edit btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalTwo" id="gift-create">Create</button>
 										<!--end::Title-->
 									</div>
 									<!--end::Page title-->
@@ -377,9 +382,9 @@
 													<tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
 														<th class="min-w-100px">Marchandize</th>
 														<th class="min-w-100px">No. Marchandize</th>
-														<th class="min-w-100px"></th>
-														<th class="min-w-100px"></th>
-														<th class="text-end min-w-75px"></th>
+														<th class="min-w-100px">Color</th>
+														<th class="min-w-100px">Text Color</th>
+														<th class="min-w-75px">StrokeStyle</th>
 														<th class="text-end min-w-75px"></th>
 														<th class="text-end min-w-100px"></th>
 													</tr>
@@ -427,6 +432,94 @@
 					<!--end::Footer-->
 				</div>
 				<!--end::Wrapper-->
+<!--begin::Modal-->
+
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Marchandize Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="giftForm">
+          <div class="mb-3">
+            <label for="text" class="col-form-label">Marchandize</label>
+            <input type="text" class="form-control" id="text" name="text">
+          </div>
+          <div class="mb-3">
+            <label for="fillStyle" class="col-form-label">Color</label>
+            <input type="fillStyle" class="form-control" id="fillStyle" name="fillStyle">
+          </div>
+
+          <div class="mb-3">
+            <label for="gift_number" class="col-form-label">Marchandize Number</label>
+            <input type="number" class="form-control" id="gift_number" name="gift_number">
+          </div>
+
+          <div class="mb-3">
+            <label for="textFillStyle" class="col-form-label">Text Color</label>
+            <input type="textFillStyle" class="form-control" id="textFillStyle" name="textFillStyle">
+          </div>
+
+          <div class="mb-3">
+            <label for="strokeStyle" class="col-form-label">StrokeStyle</label>
+            <input type="strokeStyle" class="form-control" id="strokeStyle" name="strokeStyle">
+          </div>
+		  <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button  class="btn btn-primary">Send message</button>
+      </div>
+        </form>
+      </div>
+    </div>
+  </div>
+            </div>
+
+			<div class="modal fade" id="exampleModalTwo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Marchandize</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addFormGift">
+          <div class="mb-3">
+            <label for="text" class="col-form-label">Marchandize</label>
+            <input type="text" class="form-control" id="text" name="text" placeholder="E.g Hat">
+          </div>
+          <div class="mb-3">
+            <label for="fillStyle" class="col-form-label">Color</label>
+            <input type="fillStyle" class="form-control" id="fillStyle" name="fillStyle" placeholder="E.g red">
+          </div>
+
+          <div class="mb-3">
+            <label for="gift_number" class="col-form-label">Marchandize Number</label>
+            <input type="number" class="form-control" id="gift_number" name="gift_number" placeholder="E.g 200">
+          </div>
+
+          <div class="mb-3">
+            <label for="textFillStyle" class="col-form-label">Text Color</label>
+            <input type="textFillStyle" class="form-control" id="textFillStyle" name="textFillStyle" placeholder="E.g red">
+          </div>
+
+          <div class="mb-3">
+            <label for="strokeStyle" class="col-form-label">StrokeStyle</label>
+            <input type="strokeStyle" class="form-control" id="strokeStyle" name="strokeStyle" placeholder="E.g blue">
+          </div>
+		  <div class="modal-footer">
+
+        <button  class="btn btn-primary">SUBMIT</button>
+      </div>
+        </form>
+      </div>
+    </div>
+  </div>
+              </div>
+        <!--end::Modal-->
+
 			</div>
 			<!--end::Page-->
 		</div>
@@ -442,8 +535,17 @@
 		</div>
 		<!--end::Scrolltop-->
 		<!--begin::Javascript-->
+		<script src="assets/lib/sweet.js"></script>
+		<script src="assets/dist/js/bootstrap.min.js"></script>
+		<script src="assets/lib/jquery.js"></script>
 		<script>var hostUrl = "assets/";</script>
-		// custom javasript file
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
 		<script src="util/auth.js"></script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="util/marchandize.js"></script>
@@ -453,10 +555,10 @@
 		<!--begin::Vendors Javascript(used for this page only)-->
 		<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
 		<!--end::Vendors Javascript-->
-
+		<!--begin::Custom Javascript(used for this page only)-->
+		<script src="assets/js/custom/apps/ecommerce/reports/customer-orders/customer-orders.js"></script>
 		<script src="assets/js/widgets.bundle.js"></script>
-		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
-		<!--end::Custom Javascript-->
+
 		<!--end::Javascript-->
 	</body>
 	<!--end::Body-->

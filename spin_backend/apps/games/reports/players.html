@@ -380,16 +380,14 @@
 														<span class="path1"></span>
 														<span class="path2"></span>
 													</i>
-													<input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search Report" />
+													<input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search Report" id="input-searchplayer"/>
 												</div>
 												<!--end::Search-->
 												<!--begin::Export buttons-->
 												<div id="kt_ecommerce_report_customer_orders_export" class="d-none"></div>
 												<!--end::Export buttons-->
 											</div>
-											<!--end::Card title==
 
-        <!==begin::Card toolbar-->
 											<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
 												<!--begin::Export dropdown-->
 												<button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -495,17 +493,20 @@
 		<!--end::Scrolltop-->
 		<!--begin::Javascript-->
 		<script>var hostUrl = "assets/";</script>
-		// custom javascript file
+
 		<script src="util/auth.js"></script>
 		<script src="util/players.js"></script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="assets/plugins/global/plugins.bundle.js"></script>
 		<script src="assets/js/scripts.bundle.js"></script>
+		<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+
 		<!--end::Global Javascript Bundle-->
 		<!--end::Vendors Javascript-->
+		<script src="assets/js/custom/apps/ecommerce/reports/customer-orders/customer-orders.js"></script>
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script src="assets/js/widgets.bundle.js"></script>
-		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
+
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

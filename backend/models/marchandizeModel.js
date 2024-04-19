@@ -14,6 +14,15 @@ const GiftreportsSchema = new Schema(
       type: Number,
       required: true,
     },
+    fillStyle: {
+      type: String,
+    },
+    textFillStyle: {
+      type: String,
+    },
+    strokeStyle: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

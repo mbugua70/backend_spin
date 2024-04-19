@@ -1,15 +1,57 @@
+const inputSearch = document.getElementById("input-searchelement");
+
+fetchTableData();
+
+inputSearch.addEventListener(
+  "input",
+  async () => {
+    console.log("checked");
+    const query = inputSearch.value.trim();
+    if (query === "") {
+      fetchTableData();
+    }
+    try {
+      const res = await fetch(
+        `http://localhost:4040/api/report/general/?q=${query}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+      if (res.ok) {
+        displayPackages(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  false
+);
+
 async function fetchTableData() {
   const starting_time = Date.now();
   try {
-    const response = await fetch(`http://localhost:4040/api/report/general`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `http://localhost:4040/api/report/general/?q=`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (!response.ok) {
       throw new Error("Failed to fetch  data");
     }
+
     const data = await response.json();
     // const end_time = Date.now();
     // const loading_time = end_time - starting_time;
@@ -21,10 +63,9 @@ async function fetchTableData() {
     //   const preloaderParent = document.querySelector(".preloader-parent");
     //   preloaderParent.style.display = "flex";
     // }
-    return data;
+    displayPackages(data);
   } catch (error) {
     console.error("Error fetching  data:", error);
-    return [];
   }
 }
 
@@ -52,20 +93,21 @@ const generateCard = async (tableData) => {
 
 // function to display the cards
 
-async function displayPackages() {
+async function displayPackages(generalData) {
   const tableContainer = document.getElementById("table-container");
   tableContainer.innerHTML = "";
 
-  const tableDatashow = await fetchTableData();
-  if (tableDatashow.generalReport.length === 0) {
-    const tableContainer = document.getElementById("table-container");
-    // const message = `<p> You don't have an </p>`;
-    // cardContainer.innerHTML = message;
-  } else {
-    tableDatashow.generalReport.forEach(async (packageType) => {
+  if (generalData.generalReport.length > 0) {
+    generalData.generalReport.forEach(async (packageType) => {
       const cardHTML = await generateCard(packageType);
       tableContainer.innerHTML += cardHTML;
     });
+  }
+  if (generalData.generalReport.length === 0) {
+    const tableContainer = document.getElementById("table-container");
+    const message = `<p> You don't have an </p>`;
+    cardContainer.innerHTML = message;
+  } else {
   }
 }
 
@@ -138,11 +180,3 @@ function exportToPDF() {
 
   doc.save("report.pdf");
 }
-
-
-
-
-
-
-// code for package status
-displayPackages();
