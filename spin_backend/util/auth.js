@@ -3,11 +3,8 @@ const signOut = document.getElementById("sign-out-btn");
 
 if (!user) {
   //   appNotifier("Please login");
-
-  setTimeout(() => {
-    window.location.href =
-      "/backend_spin/spin_backend/authentication/layouts/overlay/sign-in.html";
-  }, 1000);
+  window.location.href =
+    "/backend_spin/spin_backend/authentication/layouts/overlay/sign-in.html";
 }
 
 signOut.addEventListener(

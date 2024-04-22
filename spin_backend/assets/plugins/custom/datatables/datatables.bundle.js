@@ -994,11 +994,7 @@
       c[B].sType = null;
     t.aiDisplayMaster.push(o);
     var l = t.rowIdFn(e);
-    return (
-      l !== n && (t.aIds[l] = s),
-      (!r && t.oFeatures.bDeferRender) || iA(t, o, r, i),
-      o
-    );
+    return l !== n && (t.aIds[l] = s), !r && t.oFeatures.bDeferRender;
   }
   function W(t, e) {
     var n;
@@ -1263,7 +1259,7 @@
         ) {
           var f = g[E],
             Q = t.aoData[f];
-          null === Q.nTr && iA(t, f);
+          null === Q.nTr;
           var d = Q.nTr;
           if (0 !== a) {
             var C = s[o % a];
@@ -4256,7 +4252,7 @@
           sNext: "Next",
           sPrevious: "Previous",
         },
-        sEmptyTable: "No data available in table",
+
         sInfo: "Showing _START_ to _END_ of _TOTAL_ entries",
         sInfoEmpty: "Showing 0 to 0 of 0 entries",
         sInfoFiltered: "(filtered from _MAX_ total entries)",
@@ -4269,7 +4265,6 @@
         sSearch: "Search:",
         sSearchPlaceholder: "",
         sUrl: "",
-        sZeroRecords: "No matching records found",
       },
       oSearch: A.extend({}, a.models.oSearch),
       sAjaxDataProp: "data",

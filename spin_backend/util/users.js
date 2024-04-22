@@ -3,7 +3,7 @@ const createGiftEl = document.getElementById("gift-create");
 const addForm = document.getElementById("addFormGift");
 
 let selectedIdGift;
-async function fetchTableData() {
+async function fetchUserData() {
   const starting_time = Date.now();
   try {
     const response = await fetch(`http://localhost:4040/api/report/gifts`, {
@@ -71,7 +71,7 @@ async function displayPackages() {
   const tableContainer = document.getElementById("table-container");
   tableContainer.innerHTML = "";
 
-  const tableDatashow = await fetchTableData();
+  const tableDatashow = await fetchUserData();
   if (tableDatashow.giftReport.length === 0) {
     const tableContainer = document.getElementById("table-container");
     // const message = `<p> You don't have an </p>`;
