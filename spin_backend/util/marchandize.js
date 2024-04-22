@@ -254,6 +254,10 @@ const handleDeleteClick = async (e) => {
     }
     if (res.ok) {
       const data = await res.json();
+      workingNotifier("Marchandize deleted successfully");
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
     }
   } catch (error) {
     appNotifier("Failed to delete marchandize");
@@ -277,14 +281,6 @@ const swalDelete = (e) => {
     },
   }).then((result) => {
     if (result.isConfirmed) {
-      new swal(
-        "Action confirmed",
-        "Marchandize deleted successfully",
-        "success"
-      );
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
     } else if (result.dismiss === swal.DismissReason.cancel) {
       //    new swal("Action");
     }

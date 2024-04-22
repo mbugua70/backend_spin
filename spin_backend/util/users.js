@@ -1,17 +1,20 @@
-const giftForm = document.getElementById("giftForm");
-const createGiftEl = document.getElementById("gift-create");
-const addForm = document.getElementById("addFormGift");
+const userFormTwo = document.getElementById("usersFormEdit");
+const createUserEl = document.getElementById("btn-adduser");
+const userForm = document.getElementById("usersForm");
 
-let selectedIdGift;
+let selectedIdGlobal;
 async function fetchUserData() {
   const starting_time = Date.now();
   try {
-    const response = await fetch(`http://localhost:4040/api/report/gifts`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `http://localhost:4040/api/report/user/getusers`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (!response.ok) {
       throw new Error("Failed to fetch  data");
     }
@@ -28,7 +31,6 @@ async function fetchUserData() {
     // }
     return data;
   } catch (error) {
-    console.error("Error fetching  data:", error);
     return [];
   }
 }
@@ -36,30 +38,21 @@ async function fetchUserData() {
 let packageCounter = 1;
 
 // function to generate the card HTML for each package
-const generateCard = async (tableData) => {
-  //  console.log(packageStatus);
+const generateCard = async (userData) => {
   return `
     <tr>
     <td>
-     ${tableData.text}
+     ${userData.name}
+    </td>
+    <td id="showpassword">
+      <input type="password" value= ${userData.password} style="border-style: none; outline: none; appearance: none; background-color: transparent; " readOnly/>
+    </td>
+    <td style="display: flex; flex-direction: row; column-gap: 10px;">
+    <button type="button" class="btn btn-edit btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModalUserEdit" data-gift-id="${userData._id}">EDIT</button>
+    <button type="button" class="btn btn-delete btn-danger"   data-delete-id="${userData._id}" style="display: flex; align-items: center;">DELETE</button>
     </td>
     <td>
-      ${tableData.gift_number}
-    </td>
-    <td>
-    ${tableData.fillStyle}
-    </td>
-    <td>
-    ${tableData.textFillStyle}
-    </td>
-    <td>
-    ${tableData.strokeStyle}
-    </td>
-    <td>
-    <button type="button" class="btn btn-edit btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" data-gift-id="${tableData._id}">EDIT</button>
-    </td>
-    <td>
-    <button type="button" class="btn btn-delete btn-danger"   data-delete-id="${tableData._id}" style="display: flex; align-items: center;">DELETE</button>
+
     </td>
   </tr>
         `;
@@ -68,28 +61,28 @@ const generateCard = async (tableData) => {
 // function to display the cards
 
 async function displayPackages() {
-  const tableContainer = document.getElementById("table-container");
+  const tableContainer = document.getElementById("table_usercontainer");
   tableContainer.innerHTML = "";
 
   const tableDatashow = await fetchUserData();
-  if (tableDatashow.giftReport.length === 0) {
-    const tableContainer = document.getElementById("table-container");
+  if (tableDatashow.UserReport.length === 0) {
+    const tableContainer = document.getElementById("table_usercontainer");
     // const message = `<p> You don't have an </p>`;
     // cardContainer.innerHTML = message;
   } else {
-    tableDatashow.giftReport.forEach(async (packageType) => {
-      const cardHTML = await generateCard(packageType);
+    tableDatashow.UserReport.forEach(async (users) => {
+      const cardHTML = await generateCard(users);
       tableContainer.innerHTML += cardHTML;
     });
   }
 }
 
 const handleFetchUpdateForm = async (e) => {
-  const marchandizeId = e.target.dataset.giftId;
-  selectedIdGift = marchandizeId;
+  const userId = e.target.dataset.giftId;
+  selectedIdGlobal = userId;
   try {
     const res = await fetch(
-      `http://localhost:4040/api/report/gifts/${marchandizeId}`,
+      `http://localhost:4040/api/report/user/getusers/${userId}`,
       {
         method: "GET",
         headers: {
@@ -103,49 +96,35 @@ const handleFetchUpdateForm = async (e) => {
 
     if (res.ok) {
       const data = await res.json();
-      const text = document.getElementById("text");
-      const fillStyle = document.getElementById("fillStyle");
-      const textFillStyle = document.getElementById("textFillStyle");
-      const gift_number = document.getElementById("gift_number");
-      const strokeStyle = document.getElementById("strokeStyle");
+      const names = document.getElementById("names");
+      const passwords = document.getElementById("passwords");
 
       // dyanamically filling the form values
-      text.value = data.SingleGift.text;
-      fillStyle.value = data.SingleGift.fillStyle;
-      textFillStyle.value = data.SingleGift.textFillStyle;
-      gift_number.value = data.SingleGift.gift_number;
-      strokeStyle.value = data.SingleGift.strokeStyle;
+      names.value = data.SingleUser.name;
+      passwords.value = data.SingleUser.password;
     }
-  } catch (error) {
-    console.log("Failed to fetch:", error);
-  }
+  } catch (error) {}
 };
 
-giftForm.addEventListener(
+userFormTwo.addEventListener(
   "submit",
   async (e) => {
     e.preventDefault();
-    const marchandizeId = selectedIdGift;
+    const usersId = selectedIdGlobal;
 
     const giftData = new FormData(giftForm);
 
-    const text = giftData.get("text");
-    const fillStyle = giftData.get("fillStyle");
-    const textFillStyle = giftData.get("textFillStyle");
-    const strokeStyle = giftData.get("strokeStyle");
-    const gift_number = giftData.get("gift_number");
+    const username = giftData.get("names");
+    const userpassword = giftData.get("passwords");
 
     const updatedValues = {
-      text: text,
-      fillStyle: fillStyle,
-      textFillStyle: textFillStyle,
-      strokeStyle: strokeStyle,
-      gift_number: gift_number,
+      name: username,
+      password: userpassword,
     };
 
     try {
       const res = await fetch(
-        `http://localhost:4040/api/report/gifts/${marchandizeId}`,
+        `http://localhost:4040/api/report/user/getusers//${usersId}`,
         {
           method: "PATCH",
           headers: {
@@ -156,19 +135,18 @@ giftForm.addEventListener(
       );
 
       if (!res.ok) {
-        throw new Error("Failed to update the marchandize");
+        throw new Error("Failed to update the user");
       }
 
       if (res.ok) {
         const data = await res.json();
-        console.log(data);
-        workingNotifier("Marchandize Updated successfully");
+        workingNotifier("User Updated successfully");
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       }
     } catch (error) {
-      appNotifier("Failed to update the marchandize");
+      appNotifier("Failed to update the user");
     }
   },
   false
@@ -176,38 +154,26 @@ giftForm.addEventListener(
 
 // handle add marchandize
 
-addForm.addEventListener(
+userForm.addEventListener(
   "submit",
   async (e) => {
     e.preventDefault();
-    const addedData = new FormData(addForm);
+    const addedData = new FormData(userForm);
 
-    const text = addedData.get("text");
-    const fillStyle = addedData.get("fillStyle");
-    const textFillStyle = addedData.get("textFillStyle");
-    const strokeStyle = addedData.get("strokeStyle");
-    const gift_number = addedData.get("gift_number");
+    const username = addedData.get("name");
+    const password = addedData.get("password");
 
     const addedValue = {
-      text: text,
-      fillStyle: fillStyle,
-      textFillStyle: textFillStyle,
-      strokeStyle: strokeStyle,
-      gift_number: gift_number,
+      name: username,
+      password: password,
     };
 
-    if (
-      addedValue.text === "" ||
-      addedValue.fillStyle === "" ||
-      addedValue.textFillStyle === "" ||
-      addedValue.strokeStyle === "" ||
-      addedValue.gift_number === ""
-    ) {
+    if (addedValue.name === "" || addedValue.password === "") {
       appNotifier("Please fill in all the required fields");
     }
 
     try {
-      const res = await fetch("http://localhost:4040/api/report/gifts", {
+      const res = await fetch("http://localhost:4040/api/report/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -216,19 +182,22 @@ addForm.addEventListener(
       });
 
       if (!res.ok) {
-        throw new Error("Failed to fetch");
+        const dataError = await res.json();
+        if (dataError.error !== "Password is not strong enough") {
+          throw new Error("Failed to fetch");
+        }
+        appNotifierEdit(dataError.error);
       }
 
       if (res.ok) {
         const data = await res.json();
-        console.log(data);
-        workingNotifier("Marchandize added successufully");
+        workingNotifier("User added successufully");
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       }
     } catch (error) {
-      console.log();
+      appNotifierEdit("Failed to fetch");
     }
   },
 
@@ -237,10 +206,10 @@ addForm.addEventListener(
 
 // handleDelete function
 const handleDeleteClick = async (e) => {
-  const giftId = e.target.dataset.deleteId;
+  const usersId = e.target.dataset.deleteId;
   try {
     const res = await fetch(
-      `http://localhost:4040/api/report/gifts/${giftId}`,
+      `http://localhost:4040/api/report/user/deleteuser/${usersId}`,
       {
         method: "DELETE",
         headers: {
@@ -254,6 +223,10 @@ const handleDeleteClick = async (e) => {
     }
     if (res.ok) {
       const data = await res.json();
+      workingNotifierEdit("User deleted successfully");
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
     }
   } catch (error) {
     appNotifier("Failed to delete marchandize");
@@ -277,14 +250,7 @@ const swalDelete = (e) => {
     },
   }).then((result) => {
     if (result.isConfirmed) {
-      new swal(
-        "Action confirmed",
-        "Marchandize deleted successfully",
-        "success"
-      );
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
+
     } else if (result.dismiss === swal.DismissReason.cancel) {
       //    new swal("Action");
     }
@@ -294,42 +260,63 @@ const swalDelete = (e) => {
 // opening modal
 
 const openModal = () => {
-  const exampleModal = document.getElementById("exampleModal");
+  const exampleModal = document.getElementById("exampleModalUserEdit");
   if (exampleModal) {
     exampleModal.addEventListener("show.bs.modal", (event) => {});
   }
 };
 
 const openModalTwo = () => {
-  const exampleModalTwo = document.getElementById("exampleModalTwo");
-  if (exampleModalTwo) {
-    exampleModalTwo.addEventListener("show.bs.modal", (event) => {});
+  const exampleModalUsers = document.getElementById("exampleModalUser");
+  if (exampleModalUsers) {
+    exampleModalUsers.addEventListener("show.bs.modal", (event) => {});
   }
 };
 
 // modal code delete
-document.getElementById("table-container").addEventListener("click", (e) => {
-  console.log("clicked");
-  if (e.target.classList.contains("btn-delete")) {
-    swalDelete(e);
-  }
-});
 
 // modal code
-document.getElementById("table-container").addEventListener("click", (e) => {
-  console.log("clicked");
-  if (e.target.classList.contains("btn-edit")) {
-    openModal();
-    handleFetchUpdateForm(e);
-  }
-});
+document
+  .getElementById("table_usercontainer")
+  .addEventListener("click", (e) => {
+    if (e.target.classList.contains("btn-edit")) {
+      openModal();
+      handleFetchUpdateForm(e);
+    }
+  });
 
-createGiftEl.addEventListener(
+document
+  .getElementById("table_usercontainer")
+  .addEventListener("click", (e) => {
+    if (e.target.classList.contains("btn-delete")) {
+     swalDelete(e);
+    }
+  });
+
+createUserEl.addEventListener(
   "click",
   () => {
     openModalTwo();
   },
   false
 );
-// code for package status
+
+// swal libraly
+const workingNotifierEdit = (message) => {
+  new Swal({
+    title: message,
+    text: "",
+    icon: "success",
+  });
+};
+
+//   swal libraly
+function appNotifierEdit(message) {
+  new Swal({
+    title: message,
+    text: "",
+    icon: "warning",
+  });
+}
+
 displayPackages();

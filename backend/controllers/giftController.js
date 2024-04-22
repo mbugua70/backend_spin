@@ -123,3 +123,30 @@ module.exports.gift_update = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+
+
+// delete marchandize
+
+module.exports.gift_delete = async (req, res) => {
+  try {
+    const paramsID = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(paramsID)) {
+      return res.status(404).json({ error: "No such marchandize" });
+    }
+    const deleteResult = await GiftReportsSchemaModel.findByIdAndDelete({
+      _id: paramsID,
+    });
+    console.log(deleteResult);
+    if (!deleteResult) {
+      return res.status(400).json({ error: "No such marchandize" });
+    }
+    res.status(200).json({
+      success: true,
+      deleteResult
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({error: err.message})
+  }
+};

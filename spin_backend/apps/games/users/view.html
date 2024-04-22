@@ -50,11 +50,6 @@
 											</i>
 										</button>
 										<!--end::Heaeder navs toggle-->
-										<!--begin::Logo-->
-										<a href="index.html" class="d-flex align-items-center">
-											<img alt="Logo" src="assets/media/logos/demo21.svg" class="h-25px h-lg-30px" />
-										</a>
-										<!--end::Logo-->
 									</div>
 									<!--end::Brand-->
 									<!--begin::Topbar-->
@@ -208,7 +203,7 @@
 												<!--end::Menu separator-->
 												<!--begin::Menu item-->
 												<div class="menu-item px-5">
-													<a href="account/overview.html" class="menu-link px-5">Users</a>
+													<a href="/backend_spin/spin_backend/apps/games/users/view.html" class="menu-link px-5">Users</a>
 												</div>
 												<!--end::Menu item-->
 												<!--begin::Menu item-->
@@ -361,7 +356,7 @@
 												<!--begin:::Tab item-->
 												<li class="nav-item ms-auto">
 													<!--begin::Action menu-->
-													<button class="btn btn-primary ps-7" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">Add User
+													<button class="btn btn-primary ps-7" data-bs-toggle="modal" data-bs-target="#exampleModalUser" id="btn-adduser">Add User
 													</button>
 													<!--end::Menu-->
 												</li>
@@ -408,14 +403,8 @@
 
 																		</tr>
 																	</thead>
-																	<tbody class="fs-6 fw-semibold text-gray-600">
-																		<tr>
-																			<td>Australia</td>
-																			<td>Chome - Windows</td>
-																			<td>207.31.48.230</td>
-																			<td style="display: flex; flex-direction: row; column-gap: 10px;"><button type="button" class="btn btn-edit btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" data-gift-id="${tableData._id}">EDIT</button><button type="button" class="btn btn-edit btn-danger" data-bs-toggle="modal" data-delete-id="${tableData._id}">DELETE</button></td>
+																	<tbody class="fs-6 fw-semibold text-gray-600" id="table_usercontainer">
 
-																		</tr>
 																	</tbody>
 																</table>
 																<!--end::Table-->
@@ -436,6 +425,64 @@
 									<!--end::Layout-->
 									<!--begin::Modals-->
 
+                                    <!--two::Modals-->
+									<div class="modal fade" id="exampleModalUserEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+ <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+ <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+ <form id="usersFormEdit">
+   <div class="mb-3">
+	 <label for="names" class="col-form-label">Username</label>
+	 <input type="text" class="form-control" id="names" name="names">
+   </div>
+   <div class="mb-3">
+	 <label for="passwords" class="col-form-label">Password</label>
+	 <input type="passwords" class="form-control" id="passwords" name="passwords">
+   </div>
+   <div class="modal-footer">
+ <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+ <button  class="btn btn-primary">Send message</button>
+</div>
+ </form>
+</div>
+</div>
+</div>
+							 </div>
+
+                                    <!--one::Modals-->
+
+									<div class="modal fade" id="exampleModalUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+       <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add User</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="usersForm">
+          <div class="mb-3">
+            <label for="name" class="col-form-label">Username</label>
+            <input type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="col-form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+		  <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button  class="btn btn-primary">Send message</button>
+      </div>
+        </form>
+      </div>
+    </div>
+  </div>
+                                    </div>
 									<!--end::Modals-->
 								</div>
 								<!--end::Post-->
@@ -487,6 +534,17 @@
 
 		<!--begin::Javascript-->
 		<script>var hostUrl = "assets/";</script>
+		<script src="assets/lib/sweet.js"></script>
+		<script src="assets/dist/js/bootstrap.min.js"></script>
+		<script src="assets/lib/jquery.js"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+		 <script src="util/auth.js"></script>
+		 <script src="util/users.js"></script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="assets/plugins/global/plugins.bundle.js"></script>
 		<script src="assets/js/scripts.bundle.js"></script>
@@ -495,20 +553,7 @@
 		<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
 		<!--end::Vendors Javascript-->
 		<!--begin::Custom Javascript(used for this page only)-->
-		<script src="assets/js/custom/apps/user-management/users/view/view.js"></script>
-		<script src="assets/js/custom/apps/user-management/users/view/update-details.js"></script>
-		<script src="assets/js/custom/apps/user-management/users/view/add-schedule.js"></script>
-		<script src="assets/js/custom/apps/user-management/users/view/add-task.js"></script>
-		<script src="assets/js/custom/apps/user-management/users/view/update-email.js"></script>
-		<script src="assets/js/custom/apps/user-management/users/view/update-password.js"></script>
-		<script src="assets/js/custom/apps/user-management/users/view/update-role.js"></script>
-		<script src="assets/js/custom/apps/user-management/users/view/add-auth-app.js"></script>
-		<script src="assets/js/custom/apps/user-management/users/view/add-one-time-password.js"></script>
 		<script src="assets/js/widgets.bundle.js"></script>
-		<script src="assets/js/custom/widgets.js"></script>
-		<script src="assets/js/custom/apps/chat/chat.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-app.js"></script>
-		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>
