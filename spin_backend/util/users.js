@@ -112,7 +112,7 @@ userFormTwo.addEventListener(
     e.preventDefault();
     const usersId = selectedIdGlobal;
 
-    const giftData = new FormData(giftForm);
+    const giftData = new FormData(userFormTwo);
 
     const username = giftData.get("names");
     const userpassword = giftData.get("passwords");
@@ -124,7 +124,7 @@ userFormTwo.addEventListener(
 
     try {
       const res = await fetch(
-        `http://localhost:4040/api/report/user/getusers//${usersId}`,
+        `http://localhost:4040/api/report/user/update/${usersId}`,
         {
           method: "PATCH",
           headers: {
@@ -152,7 +152,7 @@ userFormTwo.addEventListener(
   false
 );
 
-// handle add marchandize
+// handle add user
 
 userForm.addEventListener(
   "submit",
