@@ -62,12 +62,14 @@ loginEl.addEventListener(
             btnEl.textContent = "Login";
             appNotifier(data.error);
           }
-          throw new Error("Failed to fetch");
+          // throw new Error("Failed to fetch");
+          console.log()
         }
       } catch (error) {
         isSubmitting = false;
         btnEl.textContent = "Login";
-        appNotifier("Failed to fetch");
+        // appNotifier("Failed to fetch");
+        console.log(error);
       }
     }
   },

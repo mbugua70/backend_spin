@@ -30,6 +30,8 @@ userSchema.statics.LoginUser = async function (name, password) {
   }
 
   const user = await this.findOne({ name });
+
+  console.log(user.password);
   if (!user) {
     throw Error("The username does not exist");
   }
@@ -56,9 +58,9 @@ userSchema.statics.SignUp = async function (name, password) {
     throw Error("Name already in use");
   }
 
-
-
-  const user = await this.create({ name, password });
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  const user = await this.create({ name, password: hash });
 
   return user;
 };
