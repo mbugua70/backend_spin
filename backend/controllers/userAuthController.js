@@ -75,6 +75,34 @@ module.exports.signUpUser = async (req, res) => {
   }
 };
 
+
+// user update
+
+module.exports.users_update = async (req, res) => {
+
+  try {
+    const paramsID = req.params.id;
+    const updatedValue = req.body;
+    if (!mongoose.Types.ObjectId.isValid(paramsID)) {
+      return res.status(404).json({ error: "No such user" });
+    }
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      paramsID,
+      updatedValue,
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "No such user" });
+    }
+
+    res.status(200).json({ success: true, updatedUser });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+};
+
 // delete user
 
 module.exports.users_delete = async (req, res) => {

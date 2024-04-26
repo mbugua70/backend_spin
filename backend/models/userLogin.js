@@ -35,8 +35,15 @@ userSchema.statics.LoginUser = async function (name, password) {
   if (!user) {
     throw Error("The username does not exist");
   }
-  const auth = await bcrypt.compare(password, user.password);
-  if (!auth) {
+  // const auth = await bcrypt.compare(password, user.password);
+  // if (!auth) {
+  //   throw Error("Incorrect password");
+  // }
+
+  console.log(password);
+  console.log(user.password);
+
+  if (password !== user.password) {
     throw Error("Incorrect password");
   }
   return user;
@@ -58,9 +65,9 @@ userSchema.statics.SignUp = async function (name, password) {
     throw Error("Name already in use");
   }
 
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-  const user = await this.create({ name, password: hash });
+  // const salt = await bcrypt.genSalt(10);
+  // const hash = await bcrypt.hash(password, salt);
+  const user = await this.create({ name, password });
 
   return user;
 };
