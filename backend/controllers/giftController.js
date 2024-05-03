@@ -117,14 +117,12 @@ module.exports.gift_update = async (req, res) => {
       return res.status(404).json({ error: "No such workgift" });
     }
 
-    res.status(200).json({ success: true, updatedGift });
+    res.status(201).json({ success: true, updatedGift });
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
-
-
 
 // delete marchandize
 
@@ -139,14 +137,14 @@ module.exports.gift_delete = async (req, res) => {
     });
     console.log(deleteResult);
     if (!deleteResult) {
-      return res.status(400).json({ error: "No such marchandize" });
+      return res.status(404).json({ error: "No such marchandize" });
     }
     res.status(200).json({
       success: true,
-      deleteResult
+      deleteResult,
     });
   } catch (err) {
     console.log(err);
-    res.status(400).json({error: err.message})
+    res.status(400).json({ error: err.message });
   }
 };

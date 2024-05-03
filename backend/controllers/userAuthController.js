@@ -69,17 +69,15 @@ module.exports.signUpUser = async (req, res) => {
   try {
     const user = await UserModel.SignUp(name, password);
     const token = createToken(user._id);
-    res.status(200).json({ name, token });
+    res.status(201).json({ name, token });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-
 // user update
 
 module.exports.users_update = async (req, res) => {
-
   try {
     const paramsID = req.params.id;
     const updatedValue = req.body;
@@ -96,7 +94,7 @@ module.exports.users_update = async (req, res) => {
       return res.status(404).json({ error: "No such user" });
     }
 
-    res.status(200).json({ success: true, updatedUser });
+    res.status(201).json({ success: true, updatedUser });
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err.message });
@@ -116,14 +114,14 @@ module.exports.users_delete = async (req, res) => {
     });
     console.log(deleteResult);
     if (!deleteResult) {
-      return res.status(400).json({ error: "No such user" });
+      return res.status(404).json({ error: "No such user" });
     }
     res.status(200).json({
       success: true,
-      deleteResult
+      deleteResult,
     });
   } catch (err) {
     console.log(err);
-    res.status(400).json({error: err.message})
+    res.status(400).json({ error: err.message });
   }
 };
